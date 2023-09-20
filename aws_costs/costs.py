@@ -123,4 +123,3 @@ def cli(start_date, end_date, verbosity):
         click.echo()
         click.secho(f"Start: {start} -> End: {end}", fg="white", bold=True)
         click.echo(f"Cost: {local_cost} {unit}")
-        click.echo()
