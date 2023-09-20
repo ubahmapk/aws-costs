@@ -116,8 +116,8 @@ def cli(start_date, end_date, verbosity):
     except Exception as e:
         click.secho(f"Error retrieving AWS Cost and Usage report", fg="red", bold=True)
         click.echo(f"{str(e)}")
+        exit(500)
 
-    # pprint(response["ResultsByTime"][0])
     time_periods = response["ResultsByTime"]
     for time_range in time_periods:
         start = time_range["TimePeriod"]["Start"]
