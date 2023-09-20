@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "aws-costs"
+version = "0.0.1"
+description = "View AWS Cost and Usage report on a per-month basis"
+authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
+readme = "README.md"
+packages = [{include = "aws_costs"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+arrow = "^1.2.3"
+babel = "^2.12.1"
+boto3 = "^1.28.51"
+click = "^8.1.7"
+
+[tool.poetry.scripts]
+aws-costs = "aws_costs.costs:cli"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.15.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
