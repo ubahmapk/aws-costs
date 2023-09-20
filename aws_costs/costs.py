@@ -50,10 +50,9 @@ def validate_date(ctx, param, value):
     "start_date",
     type=click.UNPROCESSED,
     callback=validate_date,
-    prompt=True,
     help="Start date for report",
     default=lambda: arrow.now().replace(day=1).format("YYYYMMDD"),
-    show_default="First day of this month in YYYYMMDD format",
+    show_default="First day of this month",
 )
 @click.option(
     "--end",
