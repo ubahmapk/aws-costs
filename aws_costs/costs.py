@@ -63,8 +63,19 @@ def validate_date(ctx, param, value):
     default=lambda: arrow.now().format("YYYYMMDD"),
     show_default="Today",
 )
-def cli(start_date, duration, verbosity):
-    
+def cli(start_date, end_date, verbosity):
+    """
+    \b
+    Show blended cost for a given time frame, on a per-month basis.
+
+    \b
+    Credentials are currently passed solely via the two environment variables:
+
+    \b
+    AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY
+    """
+
     set_logging_level(verbosity)
 
     # Retrieve AWS credentials from environment variables
