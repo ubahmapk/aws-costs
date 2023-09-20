@@ -96,14 +96,8 @@ def cli(start_date, end_date, verbosity):
         region_name=aws_region,
     )
 
-    # Cost and usage reports are *inclusive* for start dates and *exclusive* for end dates
-    end_date = arrow.get(start_date).shift(months=1).replace(day=1).format("YYYY-MM-DD")
-
     logger.debug(f"Start date: {start_date}")
     logger.debug(f"End date: {end_date}")
-
-    # Specify the report name and format
-    report_name = "LastMonthBill"  # Replace with your report name
 
     # Retrieve the AWS cost and usage report
     try:
