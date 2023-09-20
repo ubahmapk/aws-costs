@@ -113,12 +113,12 @@ def cli(start_date, end_date, verbosity):
         exit(500)
 
     time_periods = response["ResultsByTime"]
+    unit = time_periods[0]["Total"]["BlendedCost"]["Unit"]
     for time_range in time_periods:
         start = time_range["TimePeriod"]["Start"]
         end = time_range["TimePeriod"]["End"]
         cost = time_range["Total"]["BlendedCost"]["Amount"]
         local_cost = b_numbers.format_currency(cost, "USD", locale="en_US")
-        unit = time_range["Total"]["BlendedCost"]["Unit"]
 
         click.echo()
         click.secho(f"Start: {start} -> End: {end}", fg="white", bold=True)
