@@ -4,13 +4,13 @@ import click
 import logging
 import os
 from babel import numbers as b_numbers
-from pprint import pprint
+from sys import exit
 
-__version__ = "0.0.1"
-__author__ = "Jon Mark Allen (jm@phyxt.net)"
-
+__version__ = "0.1.0"
+__author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 logger = logging.getLogger()
+
 
 def set_logging_level(verbosity):
     """Set the global logging level"""
