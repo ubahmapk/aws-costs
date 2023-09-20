@@ -56,11 +56,13 @@ def validate_date(ctx, param, value):
     show_default="First day of this month in YYYYMMDD format",
 )
 @click.option(
-    "--duration",
-    help="Number of months or days for report to include. \r\nFormat: n(M|D). If start_date is this month, duration will be ignored.",
-    callback=validate_duration,
-    default="1M",
-    show_default="1M",
+    "--end",
+    "end_date",
+    type=click.UNPROCESSED,
+    callback=validate_date,
+    help="End date for report. Default is today.",
+    default=lambda: arrow.now().format("YYYYMMDD"),
+    show_default="Today",
 )
 def cli(start_date, duration, verbosity):
     
