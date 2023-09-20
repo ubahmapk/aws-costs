@@ -30,16 +30,13 @@ def validate_date(ctx, param, value):
     """Validate the proper format for a date"""
 
     try:
-        start_date = arrow.get(value, "YYYYMMDD").format("YYYY-MM-DD")
-        logger.debug(f"{start_date} is a valid YYYYMMDD string")
+        date_option = arrow.get(value, "YYYYMMDD").format("YYYY-MM-DD")
+        logger.debug(f"{date_option} is a valid YYYYMMDD string")
     except Exception as e:
-        raise click.BadParameter("Start date format must be YYYYMMDD")
+        logger.debug(f"Entered date: {value}")
+        raise click.BadParameter("Date format must be YYYYMMDD")
 
-    return start_date
-
-
-def validate_duration(ctx, param, value):
-    """Validate the duration option format"""
+    return date_option
 
 
 @click.command()
