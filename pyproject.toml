@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-costs"
-version = "0.1.0"
+version = "0.2.0+20230924"
 description = "View AWS Cost and Usage report on a per-month basis"
 authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
