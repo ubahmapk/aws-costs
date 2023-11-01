@@ -45,6 +45,7 @@ def validate_date(ctx, param, value):
 @click.option(
     "-v", "--verbose", "verbosity", help="Repeat for extra visibility", count=True
 )
+@click.option("-r", "--region", "aws_region", help="AWS Region", default="us-east-1")
 @click.option(
     "--start",
     "start_date",
@@ -63,7 +64,7 @@ def validate_date(ctx, param, value):
     default=lambda: arrow.now().format("YYYYMMDD"),
     show_default="Today",
 )
-def cli(start_date, end_date, verbosity):
+def cli(start_date, end_date, verbosity, aws_region):
     """
     \b
     Show blended cost for a given time frame, on a per-month basis.
@@ -84,9 +85,6 @@ def cli(start_date, end_date, verbosity):
 
     logger.debug(f"AWS ACCESS KEY: {aws_access_key_id}")
     logger.debug(f"AWS SECRET ACCESS KEY: {aws_secret_access_key}")
-
-    # AWS region
-    aws_region = "us-east-1"  # Replace with your AWS region
 
     # Set up the AWS Cost Explorer client
     ce_client = boto3.client(
