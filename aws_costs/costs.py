@@ -39,6 +39,41 @@ def validate_date(ctx, param, value):
     return date_option
 
 
+def validate_date_range(start_date, end_date):
+    """Validate the range provided will not cause AWS to vomit
+
+    Right now, that only entails:
+    - Ensuring the start and end dates are not the same
+    - Ensuring the end date comes AFTER the start date
+
+    Helpfully prompt for last month's costs, if today is the first of the month.
+    """
+
+    logger.debug(f"start_date: {start_date}")
+    logger.debug(f"end_date: {end_date}")
+
+    if start_date == end_date:
+        if start_date == arrow.utcnow().floor('month').format('YYYY-MM-DD'):
+            if click.confirm(
+                f"Today is the first of the month. Would you like to see last month's cost, instead?",
+                default=True,
+                show_default=True,
+                ):
+                    start_date = arrow.utcnow().shift(months=-1).format('YYYY-MM-DD')
+                    logger.debug(f"start_date modified, now {start_date}")
+            else:
+                exit(406)
+
+        else:
+            raise click.BadOptionUsage(end_date, "Invalid date range. Start and end dates cannot be the same day.")
+
+    if start_date >= end_date:
+        raise click.BadOptionUsage(end_date, "Invalid date range. Start date must come before end date")
+
+    # Return potentially modified start and end dates
+    return start_date, end_date
+
+
 @click.command()
 @click.version_option(__version__, "-V", "--version")
 @click.help_option("-h", "--help")
@@ -85,6 +120,8 @@ def cli(start_date, end_date, verbosity, aws_region):
 
     logger.debug(f"AWS ACCESS KEY: {aws_access_key_id}")
     logger.debug(f"AWS SECRET ACCESS KEY: {aws_secret_access_key}")
+
+    start_date, end_date = validate_date_range(start_date, end_date)
 
     # Set up the AWS Cost Explorer client
     ce_client = boto3.client(
