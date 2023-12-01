@@ -6,7 +6,7 @@ import os
 from babel import numbers as b_numbers
 from sys import exit
 
-__version__ = "0.2.0+20231101"
+__version__ = "0.3.0"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 logger = logging.getLogger()
