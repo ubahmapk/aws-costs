@@ -30,11 +30,11 @@ def validate_date(ctx, param, value):
     """Validate the proper format for a date"""
 
     try:
-        date_option = arrow.get(value, "YYYYMMDD").format("YYYY-MM-DD")
-        logger.debug(f"{date_option} is a valid YYYYMMDD string")
+        date_option = arrow.get(value, "YYYY-MM-DD").format("YYYY-MM-DD")
+        logger.debug(f"{date_option} is a valid YYYY-MM-DD string")
     except Exception as e:
         logger.debug(f"Entered date: {value}")
-        raise click.BadParameter("Date format must be YYYYMMDD")
+        raise click.BadParameter("Date format must be YYYY-MM-DD")
 
     return date_option
 
@@ -87,7 +87,7 @@ def validate_date_range(start_date, end_date):
     type=click.UNPROCESSED,
     callback=validate_date,
     help="Start date for report",
-    default=lambda: arrow.now().replace(day=1).format("YYYYMMDD"),
+    default=lambda: arrow.now().replace(day=1).format("YYYY-MM-DD"),
     show_default="First day of this month",
 )
 @click.option(
@@ -96,7 +96,7 @@ def validate_date_range(start_date, end_date):
     type=click.UNPROCESSED,
     callback=validate_date,
     help="End date for report. Default is today.",
-    default=lambda: arrow.now().format("YYYYMMDD"),
+    default=lambda: arrow.now().format("YYYY-MM-DD"),
     show_default="Today",
 )
 def cli(start_date, end_date, verbosity, aws_region):
