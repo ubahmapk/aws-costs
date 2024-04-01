@@ -1,0 +1,4 @@
+{
+    "editor.defaultFoldingRangeProvider": "TabNine.tabnine-vscode",
+    "editor.defaultFormatter": "TabNine.tabnine-vscode"
+}
