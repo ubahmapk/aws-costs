@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 arrow = "^1.2.3"
 babel = "^2.12.1"
 boto3 = "^1.28.51"
@@ -26,8 +26,9 @@ aws-costs = "aws_costs.costs:cli"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.15.0"
-black = "^23.10.1"
+black = "^24.3"
 mypy = "^1.9.0"
+vermin = "^1.6.0"
 
 [build-system]
 requires = ["poetry-core"]
