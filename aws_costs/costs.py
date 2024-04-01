@@ -6,6 +6,7 @@ import os
 
 from babel import numbers as b_numbers
 from sys import exit
+from typing import Tuple
 
 __version__ = "0.3.0"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
@@ -27,7 +28,7 @@ def set_logging_level(verbosity: int) -> None:
     logging.basicConfig(level=log_level)
 
 
-def validate_date(ctx, param, value):
+def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str:
     """Validate the proper format for a date"""
 
     try:
@@ -40,7 +41,7 @@ def validate_date(ctx, param, value):
     return date_option
 
 
-def validate_date_range(start_date, end_date):
+def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
     """Validate the range provided will not cause AWS to vomit
 
     Right now, that only entails:
@@ -126,7 +127,7 @@ def retrieve_aws_credentials() -> Tuple[str, str]:
     default=lambda: arrow.now().format("YYYY-MM-DD"),
     show_default="Today",
 )
-def cli(start_date, end_date, verbosity, aws_region):
+def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None:
     """
     \b
     Show blended cost for a given time frame, on a per-month basis.
