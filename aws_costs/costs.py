@@ -8,7 +8,7 @@ from babel import numbers as b_numbers
 from sys import exit
 from typing import Tuple
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 logger = logging.getLogger()
