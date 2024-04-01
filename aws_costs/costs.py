@@ -3,6 +3,7 @@ import boto3
 import click
 import logging
 import os
+
 from babel import numbers as b_numbers
 from sys import exit
 
@@ -12,7 +13,7 @@ __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 logger = logging.getLogger()
 
 
-def set_logging_level(verbosity):
+def set_logging_level(verbosity: int) -> None:
     """Set the global logging level"""
 
     if verbosity is not None:
@@ -53,22 +54,27 @@ def validate_date_range(start_date, end_date):
     logger.debug(f"end_date: {end_date}")
 
     if start_date == end_date:
-        if start_date == arrow.utcnow().floor('month').format('YYYY-MM-DD'):
+        if start_date == arrow.utcnow().floor("month").format("YYYY-MM-DD"):
             if click.confirm(
                 f"Today is the first of the month. Would you like to see last month's cost, instead?",
                 default=True,
                 show_default=True,
-                ):
-                    start_date = arrow.utcnow().shift(months=-1).format('YYYY-MM-DD')
-                    logger.debug(f"start_date modified, now {start_date}")
+            ):
+                start_date = arrow.utcnow().shift(months=-1).format("YYYY-MM-DD")
+                logger.debug(f"start_date modified, now {start_date}")
             else:
                 exit(406)
 
         else:
-            raise click.BadOptionUsage(end_date, "Invalid date range. Start and end dates cannot be the same day.")
+            raise click.BadOptionUsage(
+                end_date,
+                "Invalid date range. Start and end dates cannot be the same day.",
+            )
 
     if start_date >= end_date:
-        raise click.BadOptionUsage(end_date, "Invalid date range. Start date must come before end date")
+        raise click.BadOptionUsage(
+            end_date, "Invalid date range. Start date must come before end date"
+        )
 
     # Return potentially modified start and end dates
     return start_date, end_date
@@ -163,6 +169,7 @@ def cli(start_date, end_date, verbosity, aws_region):
         click.echo(f"{str(e)}")
         exit(500)
 
+    # Print results
     time_periods = response["ResultsByTime"]
     unit = time_periods[0]["Total"]["BlendedCost"]["Unit"]
     for time_range in time_periods:
