@@ -74,6 +74,27 @@ def validate_date_range(start_date, end_date):
     return start_date, end_date
 
 
+def retrieve_aws_credentials() -> Tuple[str, str]:
+    """Retrieve AWS credentials from environment variables"""
+
+    aws_access_key_id: str = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    aws_secret_access_key: str = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+
+    # check if AWS credentials are empty
+    if not aws_access_key_id or not aws_secret_access_key:
+        click.secho(
+            "AWS credentials are not set. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
+            fg="red",
+            bold=True,
+        )
+        exit(500)
+
+    logger.debug(f"AWS ACCESS KEY: {aws_access_key_id}")
+    logger.debug(f"AWS SECRET ACCESS KEY: {aws_secret_access_key}")
+
+    return aws_access_key_id, aws_secret_access_key
+
+
 @click.command()
 @click.version_option(__version__, "-V", "--version")
 @click.help_option("-h", "--help")
@@ -114,12 +135,7 @@ def cli(start_date, end_date, verbosity, aws_region):
 
     set_logging_level(verbosity)
 
-    # Retrieve AWS credentials from environment variables
-    aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID")
-    aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
-
-    logger.debug(f"AWS ACCESS KEY: {aws_access_key_id}")
-    logger.debug(f"AWS SECRET ACCESS KEY: {aws_secret_access_key}")
+    aws_access_key_id, aws_secret_access_key = retrieve_aws_credentials()
 
     start_date, end_date = validate_date_range(start_date, end_date)
 
