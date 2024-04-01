@@ -27,6 +27,7 @@ aws-costs = "aws_costs.costs:cli"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.15.0"
 black = "^23.10.1"
+mypy = "^1.9.0"
 
 [build-system]
 requires = ["poetry-core"]
