@@ -57,7 +57,7 @@ def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
     if start_date == end_date:
         if start_date == arrow.utcnow().floor("month").format("YYYY-MM-DD"):
             if click.confirm(
-                f"Today is the first of the month. Would you like to see last month's cost, instead?",
+                "Today is the first of the month. Would you like to see last month's cost, instead?",
                 default=True,
                 show_default=True,
             ):
@@ -166,7 +166,7 @@ def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None
         )
 
     except Exception as e:
-        click.secho(f"Error retrieving AWS Cost and Usage report", fg="red", bold=True)
+        click.secho("Error retrieving AWS Cost and Usage report", fg="red", bold=True)
         click.echo(f"{str(e)}")
         exit(500)
 
