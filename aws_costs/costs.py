@@ -34,7 +34,7 @@ def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str
     try:
         date_option = arrow.get(value, "YYYY-MM-DD").format("YYYY-MM-DD")
         logger.debug(f"{date_option} is a valid YYYY-MM-DD string")
-    except Exception as e:
+    except Exception:
         logger.debug(f"Entered date: {value}")
         raise click.BadParameter("Date format must be YYYY-MM-DD")
 
