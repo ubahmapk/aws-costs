@@ -64,7 +64,10 @@ def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
                 start_date = arrow.utcnow().shift(months=-1).format("YYYY-MM-DD")
                 logger.debug(f"start_date modified, now {start_date}")
             else:
-                exit(406)
+                raise click.BadOptionUsage(
+                    end_date,
+                    "Invalid date range. Start and end dates cannot be the same day.",
+                )
 
         else:
             raise click.BadOptionUsage(
