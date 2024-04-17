@@ -84,11 +84,11 @@ def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
 def retrieve_aws_credentials() -> Tuple[str, str]:
     """Retrieve AWS credentials from environment variables"""
 
-    aws_access_key_id: str = os.environ.get("AWS_ACCESS_KEY_ID", "")
-    aws_secret_access_key: str = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    try:
+        aws_access_key_id: str = os.environ["AWS_ACCESS_KEY_ID"]
+        aws_secret_access_key: str = os.environ["AWS_SECRET_ACCESS_KEY"]
 
-    # check if AWS credentials are empty
-    if not aws_access_key_id or not aws_secret_access_key:
+    except KeyError:
         click.secho(
             "AWS credentials are not set. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
             fg="red",
@@ -96,8 +96,7 @@ def retrieve_aws_credentials() -> Tuple[str, str]:
         )
         exit(500)
 
-    logger.debug(f"AWS ACCESS KEY: {aws_access_key_id}")
-    logger.debug(f"AWS SECRET ACCESS KEY: {aws_secret_access_key}")
+    logger.debug("AWS credentials found in environment")
 
     return aws_access_key_id, aws_secret_access_key
 
