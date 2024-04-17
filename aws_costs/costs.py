@@ -107,7 +107,14 @@ def retrieve_aws_credentials() -> Tuple[str, str]:
 @click.option(
     "-v", "--verbose", "verbosity", help="Repeat for extra visibility", count=True
 )
-@click.option("-r", "--region", "aws_region", help="AWS Region", default="us-east-1")
+@click.option(
+    "-r",
+    "--region",
+    "aws_region",
+    help="AWS Region",
+    default="us-east-1",
+    show_default=True,
+)
 @click.option(
     "--start",
     "start_date",
