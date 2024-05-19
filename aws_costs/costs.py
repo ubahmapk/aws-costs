@@ -1,17 +1,24 @@
-import arrow
-import boto3
-import click
 import logging
-import os
-
-from babel import numbers as b_numbers
 from sys import exit
 from typing import Tuple
 
-__version__ = "0.3.1"
+import arrow
+import boto3
+#import botocore.exceptions
+import click
+from babel import numbers as b_numbers
+from pydantic_settings import BaseSettings
+from pydantic import ValidationError
+
+__version__ = "0.3.2"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 logger = logging.getLogger()
+
+
+class Settings(BaseSettings):
+    aws_access_key_id: str
+    aws_secret_access_key: str
 
 
 def set_logging_level(verbosity: int) -> None:
@@ -88,10 +95,11 @@ def retrieve_aws_credentials() -> Tuple[str, str]:
     """Retrieve AWS credentials from environment variables"""
 
     try:
-        aws_access_key_id: str = os.environ["AWS_ACCESS_KEY_ID"]
-        aws_secret_access_key: str = os.environ["AWS_SECRET_ACCESS_KEY"]
+        settings = Settings()
+        aws_access_key_id: str = settings.aws_access_key_id
+        aws_secret_access_key: str = settings.aws_secret_access_key
 
-    except KeyError:
+    except ValidationError:
         click.secho(
             "AWS credentials are not set. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
             fg="red",
