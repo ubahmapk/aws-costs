@@ -4,11 +4,12 @@ from typing import Tuple
 
 import arrow
 import boto3
-#import botocore.exceptions
+
+# import botocore.exceptions
 import click
 from babel import numbers as b_numbers
 from pydantic_settings import BaseSettings
-from pydantic import ValidationError
+from pydantic import Field, ValidationError
 
 __version__ = "0.3.2"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
@@ -17,8 +18,8 @@ logger = logging.getLogger()
 
 
 class Settings(BaseSettings):
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: str = Field(min_length=20, pattern=r'^[a-zA-Z0-9]{20,}$')
+    aws_secret_access_key: str = Field(min_length=40, pattern=r'^[a-zA-Z0-9/\+=]{40,}$')
 
 
 def set_logging_level(verbosity: int) -> None:
@@ -101,7 +102,7 @@ def retrieve_aws_credentials() -> Tuple[str, str]:
 
     except ValidationError:
         click.secho(
-            "AWS credentials are not set. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
+            "AWS credentials are not set or are invalid. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
             fg="red",
             bold=True,
         )
