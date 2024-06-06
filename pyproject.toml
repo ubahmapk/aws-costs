@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-costs"
-version = "0.3.2"
+version = "0.3.3"
 description = "View AWS Cost and Usage report on a per-month basis"
 authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
@@ -21,6 +21,7 @@ babel = "^2.12.1"
 boto3 = "^1.28.51"
 click = "^8.1.7"
 pydantic-settings = "^2.2.1"
+loguru = "^0.7.2"
 
 [tool.poetry.scripts]
 aws-costs = "aws_costs.costs:cli"

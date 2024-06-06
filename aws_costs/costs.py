@@ -1,21 +1,17 @@
-import logging
-from sys import exit
-from typing import Tuple
 
 import arrow
 import boto3
-
 # import botocore.exceptions
 import click
 from babel import numbers as b_numbers
-from pydantic_settings import BaseSettings
+from loguru import logger
 from pydantic import Field, ValidationError
+from pydantic_settings import BaseSettings
+from sys import exit,stderr
+from typing import Tuple
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
-
-logger = logging.getLogger()
-
 
 class Settings(BaseSettings):
     aws_access_key_id: str = Field(min_length=20, pattern=r'^[a-zA-Z0-9]{20,}$')
@@ -33,7 +29,8 @@ def set_logging_level(verbosity: int) -> None:
         else:
             log_level = "ERROR"
 
-    logging.basicConfig(level=log_level)
+    logger.remove(0)
+    logger.add(stderr, level=log_level)
 
 
 def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str:
