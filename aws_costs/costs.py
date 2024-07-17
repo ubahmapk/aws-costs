@@ -1,6 +1,6 @@
-
 import arrow
 import boto3
+
 # import botocore.exceptions
 import click
 from babel import numbers as b_numbers
@@ -12,9 +12,10 @@ from sys import exit, stderr
 __version__ = "0.3.3"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
+
 class Settings(BaseSettings):
-    aws_access_key_id: str = Field(min_length=20, pattern=r'^[a-zA-Z0-9]{20,}$')
-    aws_secret_access_key: str = Field(min_length=40, pattern=r'^[a-zA-Z0-9/\+=]{40,}$')
+    aws_access_key_id: str = Field(min_length=20, pattern=r"^[a-zA-Z0-9]{20,}$")
+    aws_secret_access_key: str = Field(min_length=40, pattern=r"^[a-zA-Z0-9/\+=]{40,}$")
 
 
 def set_logging_level(verbosity: int) -> None:
@@ -29,6 +30,7 @@ def set_logging_level(verbosity: int) -> None:
             log_level = "ERROR"
 
     logger.remove(0)
+    # noinspection PyUnboundLocalVariable
     logger.add(stderr, level=log_level)
 
 
