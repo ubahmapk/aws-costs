@@ -34,6 +34,46 @@ vermin = "^1.6.0"
 ruff = "^0.3.5"
 isort = "^5.13.2"
 
+[tool.poetry.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | venv
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+target-version = 'py310'
+lint.select = [
+    "E",  # Pycodestyle (Python Enhancement Proposals)
+    "F",  # Pyflakes
+    "W",  # Pywicket
+    "B",  # Becker/Python
+    "C4", # McGrath/Python-CodingStyle
+    "I",  # Isort
+    "N",  # Mccabe/Python-McCabe
+    "PTH",# Pylint -- Python Threading Hooks
+    "Q",  # Pycodestyle -- Quality (PEP 8 -- Naming)
+    "RUF",# Ruff-specific rules
+    "SIM",# Simon/Python-Simplicity
+    "UP", # PyUP -- Unused Parameter
+    "YTT",# Yttri/Python-Yoda
+]
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
