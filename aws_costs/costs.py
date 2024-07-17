@@ -7,8 +7,7 @@ from babel import numbers as b_numbers
 from loguru import logger
 from pydantic import Field, ValidationError
 from pydantic_settings import BaseSettings
-from sys import exit,stderr
-from typing import Tuple
+from sys import exit, stderr
 
 __version__ = "0.3.3"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
@@ -46,7 +45,7 @@ def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str
     return date_option
 
 
-def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
+def validate_date_range(start_date: str, end_date: str) -> tuple[str, str]:
     """Validate the range provided will not cause AWS to vomit
 
     Right now, that only entails:
@@ -89,7 +88,7 @@ def validate_date_range(start_date: str, end_date: str) -> Tuple[str, str]:
     return start_date, end_date
 
 
-def retrieve_aws_credentials() -> Tuple[str, str]:
+def retrieve_aws_credentials() -> tuple[str, str]:
     """Retrieve AWS credentials from environment variables"""
 
     try:
