@@ -9,7 +9,7 @@ from pydantic import Field, ValidationError
 from pydantic_settings import BaseSettings
 from sys import exit, stderr
 
-__version__ = "0.3.3"
+__version__ = "0.3.4"
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 
