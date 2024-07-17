@@ -34,7 +34,7 @@ vermin = "^1.6.0"
 ruff = "^0.3.5"
 isort = "^5.13.2"
 
-[tool.poetry.black]
+[tool.black]
 line-length = 88
 target-version = ['py310']
 include = '\.pyi?$'
