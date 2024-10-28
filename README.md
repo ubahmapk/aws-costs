@@ -26,3 +26,5 @@ Options:
 - babel
 - boto3
 - click
+- loguru
+- pydantic-settings
