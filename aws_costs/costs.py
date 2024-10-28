@@ -1,3 +1,5 @@
+from sys import exit, stderr
+
 import arrow
 import boto3
 
@@ -7,9 +9,9 @@ from babel import numbers as b_numbers
 from loguru import logger
 from pydantic import Field, ValidationError
 from pydantic_settings import BaseSettings
-from sys import exit, stderr
 
-__version__ = "0.3.4"
+from aws_costs.__version__ import __version__
+
 __author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 

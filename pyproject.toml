@@ -26,6 +26,27 @@ loguru = "^0.7.2"
 [tool.poetry.scripts]
 aws-costs = "aws_costs.costs:cli"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+persistent-substitution = true
+pattern = "default-unprefixed"
+format = "{base}.{stage}.{revision}"
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [{ path = "aws_costs/*.py" }]
+
+[tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
+initial-content = """'''Dynamically updated version file.'''
+__version__ = "0.0.0"
+"""
+
+[tool.poetry-dynamic-versioning.from-file]
+source = "VERSION"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.15.0"
 black = "^24.3"
@@ -76,8 +97,3 @@ lint.select = [
     "UP", # PyUP -- Unused Parameter
     "YTT",# Yttri/Python-Yoda
 ]
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
