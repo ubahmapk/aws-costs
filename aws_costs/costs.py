@@ -23,6 +23,9 @@ class Settings(BaseSettings):
 def set_logging_level(verbosity: int) -> None:
     """Set the global logging level"""
 
+    # Default level
+    log_level = "INFO"
+
     if verbosity is not None:
         if verbosity == 1:
             log_level = "INFO"
@@ -84,9 +87,7 @@ def validate_date_range(start_date: str, end_date: str) -> tuple[str, str]:
             )
 
     if start_date >= end_date:
-        raise click.BadOptionUsage(
-            end_date, "Invalid date range. Start date must come before end date"
-        )
+        raise click.BadOptionUsage(end_date, "Invalid date range. Start date must come before end date")
 
     # Return potentially modified start and end dates
     return start_date, end_date
@@ -96,7 +97,7 @@ def retrieve_aws_credentials() -> tuple[str, str]:
     """Retrieve AWS credentials from environment variables"""
 
     try:
-        settings = Settings()
+        settings = Settings()  # type: ignore reportCallIssue
         aws_access_key_id: str = settings.aws_access_key_id
         aws_secret_access_key: str = settings.aws_secret_access_key
 
@@ -116,9 +117,7 @@ def retrieve_aws_credentials() -> tuple[str, str]:
 @click.command()
 @click.version_option(__version__, "-V", "--version")
 @click.help_option("-h", "--help")
-@click.option(
-    "-v", "--verbose", "verbosity", help="Repeat for extra visibility", count=True
-)
+@click.option("-v", "--verbose", "verbosity", help="Repeat for extra visibility", count=True)
 @click.option(
     "-r",
     "--region",
