@@ -29,15 +29,15 @@ aws-costs = "aws_costs.costs:cli"
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
-style = "pep440"
-pattern = "^v(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?"
-format-jinja = """
-    {%- if distance == 0 -%}
-        {{- base -}}
-    {%- else -%}
-        {{- base }}.dev{{ distance }}+g{{commit}}
-    {%- endif -%}
-"""
+#style = "pep440"
+#pattern = "^v(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?"
+#format-jinja = """
+#    {%- if distance == 0 -%}
+#        {{- base -}}
+#    {%- else -%}
+#        {{- base }}.dev{{ distance }}+g{{commit}}
+#    {%- endif -%}
+#"""
 
 [tool.poetry-dynamic-versioning.substitution]
 folders = [{ path = "aws_costs/*.py" }]
