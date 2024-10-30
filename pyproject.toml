@@ -35,13 +35,6 @@ format = "{base}.{stage}.{revision}"
 folders = [{ path = "aws_costs/*.py" }]
 files = [{ path = "pyproject.toml" }]
 
-[tool.poetry-dynamic-versioning.files."pyproject.toml"]
-persistent-substitution = true
-patterns = [
-    '''(^version\s*(?::.*?)?=\s*['"])[^'"]*(['"])''',
-    { value = '''(^__version_tuple__\s*(?::.*?)?=\s*\()[^)]*(\))''', mode = "tuple" },
-]
-
 [tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
 persistent-substitution = true
 initial-content = """'''Dynamically updated version file.'''
