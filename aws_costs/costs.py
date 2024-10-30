@@ -24,15 +24,13 @@ def set_logging_level(verbosity: int) -> None:
     """Set the global logging level"""
 
     # Default level
-    log_level = "INFO"
+    log_level = "ERROR"
 
     if verbosity is not None:
         if verbosity == 1:
             log_level = "INFO"
         elif verbosity > 1:
             log_level = "DEBUG"
-        else:
-            log_level = "ERROR"
 
     logger.remove(0)
     # noinspection PyUnboundLocalVariable
@@ -44,9 +42,9 @@ def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str
 
     try:
         date_option = arrow.get(value, "YYYY-MM-DD").format("YYYY-MM-DD")
-        logger.debug(f"{date_option} is a valid YYYY-MM-DD string")
+        # logger.debug(f"{date_option} is a valid YYYY-MM-DD string")
     except Exception:
-        logger.debug(f"Entered date: {value}")
+        # logger.debug(f"Entered date: {value}")
         raise click.BadParameter("Date format must be YYYY-MM-DD") from None
 
     return date_option
