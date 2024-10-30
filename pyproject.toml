@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-costs"
-version = "0.3.4"
+version = "0.3.6+20241030-01"
 description = "View AWS Cost and Usage report on a per-month basis"
 authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
@@ -28,20 +28,28 @@ aws-costs = "aws_costs.costs:cli"
 
 [tool.poetry-dynamic-versioning]
 enable = true
-persistent-substitution = true
 pattern = "default-unprefixed"
 format = "{base}.{stage}.{revision}"
 
 [tool.poetry-dynamic-versioning.substitution]
 folders = [{ path = "aws_costs/*.py" }]
+files = [{ path = "pyproject.toml" }]
+
+[tool.poetry-dynamic-versioning.files."pyproject.toml"]
+persistent-substitution = true
+patterns = [
+    '''(^version\s*(?::.*?)?=\s*['"])[^'"]*(['"])''',
+    { value = '''(^__version_tuple__\s*(?::.*?)?=\s*\()[^)]*(\))''', mode = "tuple" },
+]
 
 [tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
+persistent-substitution = true
 initial-content = """'''Dynamically updated version file.'''
 __version__ = "0.0.0"
 """
 
-[tool.poetry-dynamic-versioning.from-file]
-source = "VERSION"
+#[tool.poetry-dynamic-versioning.from-file]
+#source = "VERSION"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
