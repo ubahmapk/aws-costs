@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-costs"
-version = "0.3.7"
+version = "0.3.6"
 description = "View AWS Cost and Usage report on a per-month basis"
 authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
@@ -28,23 +28,28 @@ aws-costs = "aws_costs.costs:cli"
 
 [tool.poetry-dynamic-versioning]
 enable = true
+vcs = "git"
+latest-tag = true
+style = "semver"
 
 [tool.poetry-dynamic-versioning.substitution]
 folders = [{ path = "aws_costs/*.py" }]
-files = [{ path = "pyproject.toml" }]
 
 [tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
 persistent-substitution = true
 
-format-jinja = """
-    {%- if distance == 0 -%}
-        {{ serialize_pep440(base, stage, revision) }}
-    {%- elif revision is not none -%}
-        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
-    {%- else -%}
-        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
-    {%- endif -%}
-"""
+[tool.poetry-dynamic-versioning.files."pyproject.toml"]
+persistent-substitution = true
+
+#format-jinja = """
+#    {%- if distance == 0 -%}
+#        {{ serialize_pep440(base, stage, revision) }}
+#    {%- elif revision is not none -%}
+#        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
+#    {%- else -%}
+#        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
+#    {%- endif -%}
+#"""
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]

@@ -1,2 +1,3 @@
-'''Dynamically updated version file.'''
-__version__ = "0.0.0"
+"""Dynamically updated version file."""
+
+__version__ = "0.3.7"
