@@ -28,8 +28,8 @@ aws-costs = "aws_costs.costs:cli"
 
 [tool.poetry-dynamic-versioning]
 enable = true
-pattern = "default-unprefixed"
-format = "{base}.{stage}.{revision}"
+#pattern = "default-unprefixed"
+#format = "{base}.{stage}.{revision}"
 
 [tool.poetry-dynamic-versioning.substitution]
 folders = [{ path = "aws_costs/*.py" }]
@@ -37,9 +37,9 @@ files = [{ path = "pyproject.toml" }]
 
 [tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
 persistent-substitution = true
-initial-content = """'''Dynamically updated version file.'''
-__version__ = "0.0.0"
-"""
+#initial-content = """'''Dynamically updated version file.'''
+#__version__ = "0.0.0"
+#"""
 
 #[tool.poetry-dynamic-versioning.from-file]
 #source = "VERSION"
