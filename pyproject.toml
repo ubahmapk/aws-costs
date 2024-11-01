@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-costs"
-version = "0.3.6"
+version = "0.3.8"
 description = "View AWS Cost and Usage report on a per-month basis"
 authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
@@ -25,28 +25,6 @@ loguru = ">=0.7.2"
 
 [tool.poetry.scripts]
 aws-costs = "aws_costs.costs:cli"
-
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
-#style = "pep440"
-#pattern = "^v(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?"
-#format-jinja = """
-#    {%- if distance == 0 -%}
-#        {{- base -}}
-#    {%- else -%}
-#        {{- base }}.dev{{ distance }}+g{{commit}}
-#    {%- endif -%}
-#"""
-
-[tool.poetry-dynamic-versioning.substitution]
-folders = [{ path = "aws_costs/*.py" }]
-
-[tool.poetry-dynamic-versioning.files."aws_costs/__version__.py"]
-persistent-substitution = true
-
-[tool.poetry-dynamic-versioning.files."pyproject.toml"]
-persistent-substitution = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
