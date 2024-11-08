@@ -5,6 +5,8 @@ envfile
 *.json
 *.log
 *.txt
+.dccache
+.DS_Store
 
 # MS Visual Studio
 .vscode/
