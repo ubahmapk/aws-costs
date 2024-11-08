@@ -94,10 +94,13 @@ def validate_date_range(start_date: str, end_date: str) -> tuple[str, str]:
 def retrieve_aws_credentials() -> tuple[str, str]:
     """Retrieve AWS credentials from environment variables"""
 
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
+
     try:
-        settings = Settings()  # type: ignore reportCallIssue
-        aws_access_key_id: str = settings.aws_access_key_id
-        aws_secret_access_key: str = settings.aws_secret_access_key
+        settings = Settings()
+        aws_access_key_id = settings.aws_access_key_id
+        aws_secret_access_key = settings.aws_secret_access_key
 
     except ValidationError:
         click.secho(
