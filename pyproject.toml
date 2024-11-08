@@ -27,8 +27,8 @@ loguru = ">=0.7.2"
 aws-costs = "aws_costs.costs:cli"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.15.0"
@@ -39,11 +39,6 @@ ruff = "^0.3.5"
 isort = "^5.13.2"
 pre-commit = "^4.0.1"
 bandit = "^1.7.10"
-
-[tool.bandit]
-exclude_dirs = ["aws_costs/tests"]
-#tests = ["B201", "B301"]
-#skips = ["B311"]
 
 [tool.black]
 line-length = 120

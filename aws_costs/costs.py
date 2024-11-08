@@ -151,7 +151,7 @@ def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None
     Show blended cost for a given time frame, on a per-month basis.
 
     \b
-    Credentials are currently passed solely via the two environment variables:
+    Credentials are passed solely via the two environment variables:
 
     \b
     AWS_ACCESS_KEY_ID
