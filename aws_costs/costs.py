@@ -1,18 +1,18 @@
-from sys import exit, stderr
+from sys import stderr
+from typing import Annotated
 
 import arrow
 import boto3
 
 # import botocore.exceptions
-import click
+import typer
 from babel import numbers as b_numbers
 from loguru import logger
 from pydantic import Field, ValidationError
 from pydantic_settings import BaseSettings
+from rich import print as rprint
 
 from aws_costs.__version__ import __version__
-
-__author__ = "Jon Mark Allen (ubahmapk@gmail.com)"
 
 
 class Settings(BaseSettings):
@@ -37,7 +37,7 @@ def set_logging_level(verbosity: int) -> None:
     logger.add(stderr, level=log_level)
 
 
-def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str:
+def validate_date(value: str) -> str:
     """Validate the proper format for a date"""
 
     try:
@@ -45,7 +45,7 @@ def validate_date(ctx: click.Context, param: click.ParamType, value: str) -> str
         # logger.debug(f"{date_option} is a valid YYYY-MM-DD string")
     except Exception:
         # logger.debug(f"Entered date: {value}")
-        raise click.BadParameter("Date format must be YYYY-MM-DD") from None
+        raise typer.BadParameter("Date format must be YYYY-MM-DD") from None
 
     return date_option
 
@@ -65,7 +65,7 @@ def validate_date_range(start_date: str, end_date: str) -> tuple[str, str]:
 
     if start_date == end_date:
         if start_date == arrow.utcnow().floor("month").format("YYYY-MM-DD"):
-            if click.confirm(
+            if typer.confirm(
                 "Today is the first of the month. Would you like to see last month's cost, instead?",
                 default=True,
                 show_default=True,
@@ -73,19 +73,16 @@ def validate_date_range(start_date: str, end_date: str) -> tuple[str, str]:
                 start_date = arrow.utcnow().shift(months=-1).format("YYYY-MM-DD")
                 logger.debug(f"start_date modified, now {start_date}")
             else:
-                raise click.BadOptionUsage(
-                    end_date,
-                    "Invalid date range. Start and end dates cannot be the same day.",
-                )
+                rprint("[bold red]Invalid date range. Start and end dates cannot be the same day.[/bold red]")
+                raise typer.Abort()
 
         else:
-            raise click.BadOptionUsage(
-                end_date,
-                "Invalid date range. Start and end dates cannot be the same day.",
-            )
+            rprint("[bold red]Invalid date range. Start and end dates cannot be the same day.[/bold red]")
+            raise typer.Abort()
 
     if start_date >= end_date:
-        raise click.BadOptionUsage(end_date, "Invalid date range. Start date must come before end date")
+        rprint("[bold red]Invalid date range. Start date must come before end date[/bold red]")
+        raise typer.Abort()
 
     # Return potentially modified start and end dates
     return start_date, end_date
@@ -103,49 +100,58 @@ def retrieve_aws_credentials() -> tuple[str, str]:
         aws_secret_access_key = settings.aws_secret_access_key
 
     except ValidationError:
-        click.secho(
-            "AWS credentials are not set or are invalid. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.",
-            fg="red",
-            bold=True,
+        (
+            rprint(
+                "[bold red]AWS credentials are not set or are invalid. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.[/bold red]"
+            ),
         )
-        exit(500)
+        raise typer.Exit(500) from None
 
     logger.debug("AWS credentials found in environment")
 
     return aws_access_key_id, aws_secret_access_key
 
 
-@click.command()
-@click.version_option(__version__, "-V", "--version")
-@click.help_option("-h", "--help")
-@click.option("-v", "--verbose", "verbosity", help="Repeat for extra visibility", count=True)
-@click.option(
-    "-r",
-    "--region",
-    "aws_region",
-    help="AWS Region",
-    default="us-east-1",
-    show_default=True,
-)
-@click.option(
-    "--start",
-    "start_date",
-    type=click.UNPROCESSED,
-    callback=validate_date,
-    help="Start date for report",
-    default=lambda: arrow.now().replace(day=1).format("YYYY-MM-DD"),
-    show_default="First day of this month",
-)
-@click.option(
-    "--end",
-    "end_date",
-    type=click.UNPROCESSED,
-    callback=validate_date,
-    help="End date for report. Default is today.",
-    default=lambda: arrow.now().format("YYYY-MM-DD"),
-    show_default="Today",
-)
-def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None:
+app = typer.Typer(add_completion=False, context_settings={"help_option_names": ["-h", "--help"]})
+
+
+def version_callback(value: bool) -> None:
+    if value:
+        print(f"aws-costs version {__version__}")
+
+        raise typer.Exit(0)
+
+    return None
+
+
+@app.command()
+def cli(
+    start_date: str = typer.Option(
+        help="Start date for report",
+        callback=validate_date,
+        default=lambda: arrow.now().replace(day=1).format("YYYY-MM-DD"),
+        show_default="First day of this month",
+    ),
+    end_date: str = typer.Option(
+        help="End date for report",
+        callback=validate_date,
+        default=lambda: arrow.now().format("YYYY-MM-DD"),
+        show_default="Today",
+    ),
+    aws_region: Annotated[str, typer.Option("--region", "-r", help="AWS Region", show_default=True)] = "us-east-1",
+    verbosity: Annotated[int, typer.Option("--verbose", "-v", help="Repeat for extra verbosity")] = 0,
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            "-V",
+            callback=version_callback,
+            is_eager=True,
+            show_default=False,
+            help="Show the version and exit.",
+        ),
+    ] = False,
+) -> None:
     """
     \b
     Show blended cost for a given time frame, on a per-month basis.
@@ -184,9 +190,9 @@ def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None
         )
 
     except Exception as e:
-        click.secho("Error retrieving AWS Cost and Usage report", fg="red", bold=True)
-        click.echo(f"{str(e)}")
-        exit(500)
+        rprint("[bold red]Error retrieving AWS Cost and Usage report[/bold red]")
+        rprint(f"{e!s}")
+        raise typer.Exit(500) from None
 
     # Print results
     time_periods = response["ResultsByTime"]
@@ -197,6 +203,10 @@ def cli(start_date: str, end_date: str, verbosity: int, aws_region: str) -> None
         cost = time_range["Total"]["BlendedCost"]["Amount"]
         local_cost = b_numbers.format_currency(cost, "USD", locale="en_US")
 
-        click.echo()
-        click.secho(f"Start: {start} -> End: {end}", fg="white", bold=True)
-        click.echo(f"Cost: {local_cost} {unit}")
+        print()
+        rprint(f"[bold white]Start: {start} -> End: {end}[/bold white]")
+        print(f"Cost: {local_cost} {unit}")
+
+
+if __name__ == "__main__":
+    app()

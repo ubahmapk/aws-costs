@@ -1,23 +1,14 @@
-# Project custom (but usually used for me)
+# Project custom
 envfile
-*.csv
-*.yaml
-*.json
-*.log
-*.txt
-.dccache
-.DS_Store
-
-# MS Visual Studio
-.vscode/
+local/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-*.so
+# Ruff cache
+.ruff_cache
 
 # Distribution / packaging
 .Python
@@ -38,6 +29,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.dccache
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -63,10 +55,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
-# Translations
-*.mo
-*.pot
 
 # Django stuff:
 *.log
@@ -119,20 +107,11 @@ ipython_config.py
 #pdm.lock
 #   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
 #   in version control.
-#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
+#   https://pdm.fming.dev/#use-with-ide
 .pdm.toml
-.pdm-python
-.pdm-build/
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
 
 # Environments
 .env
@@ -146,9 +125,6 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
-
-# Rope project settings
-.ropeproject
 
 # mkdocs documentation
 /site
@@ -173,3 +149,11 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
+.idea/csv-editor.xml
+.idea/shelf/
+.idea/workspace.xml
+
+# Zed
+.zed
+
+.DS_Store

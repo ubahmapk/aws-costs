@@ -1,10 +1,20 @@
-[tool.poetry]
+[project]
 name = "aws-costs"
-version = "0.4.0"
+version = "0.4.1"
 description = "View AWS Cost and Usage report on a per-month basis"
-authors = ["Jon Mark Allen <ubahmapk@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "aws_costs" }]
+authors = [
+    { name = "Jon Mark Allen", email = "ubahmapk@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "arrow>=1.3.0",
+    "babel>=2.16.0",
+    "boto3>=1.35.81",
+    "loguru>=0.7.3",
+    "pydantic-settings>=2.7.0",
+    "typer>=0.15.1",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -14,72 +24,18 @@ classifiers = [
     "Topic :: Utilities",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10"
-arrow = ">=1.2.3"
-babel = ">=2.12.1"
-boto3 = "^1.28.51"
-click = ">=8.1.7"
-pydantic-settings = ">=2.2.1"
-loguru = ">=0.7.2"
+[dependency-groups]
+dev = [
+    "hatchling>=1.26.3",
+    "ipython>=8.30.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.8.3",
+    "vermin>=1.6.0",
+]
 
-[tool.poetry.scripts]
-aws-costs = "aws_costs.costs:cli"
+[project.scripts]
+aws-costs = "aws_costs.costs:app"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.group.dev.dependencies]
-ipython = "^8.15.0"
-black = "^24.3"
-mypy = "^1.9.0"
-vermin = "^1.6.0"
-ruff = "^0.3.5"
-isort = "^5.13.2"
-pre-commit = "^4.0.1"
-bandit = "^1.7.10"
-
-[tool.black]
-line-length = 120
-target-version = ['py310']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | venv
-  | __version__.py
-)/
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 120
-
-[tool.ruff]
-line-length = 120
-target-version = 'py310'
-lint.select = [
-    "E",   # Pycodestyle (Python Enhancement Proposals)
-    "F",   # Pyflakes
-    "W",   # Pywicket
-    "B",   # Becker/Python
-    "C4",  # McGrath/Python-CodingStyle
-    "I",   # Isort
-    "N",   # Mccabe/Python-McCabe
-    "PTH", # Pylint -- Python Threading Hooks
-    "Q",   # Pycodestyle -- Quality (PEP 8 -- Naming)
-    "RUF", # Ruff-specific rules
-    "SIM", # Simon/Python-Simplicity
-    "UP",  # PyUP -- Unused Parameter
-    "YTT", # Yttri/Python-Yoda
-]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
