@@ -95,15 +95,13 @@ def retrieve_aws_credentials() -> tuple[str, str]:
     aws_secret_access_key: str = ""
 
     try:
-        settings = Settings()
+        settings = Settings()  # type: ignore reportCallIssue
         aws_access_key_id = settings.aws_access_key_id
         aws_secret_access_key = settings.aws_secret_access_key
 
     except ValidationError:
-        (
-            rprint(
-                "[bold red]AWS credentials are not set or are invalid. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.[/bold red]"
-            ),
+        rprint(
+            "[bold red]AWS credentials are not set or are invalid. Please set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.[/bold red]"
         )
         raise typer.Exit(500) from None
 
