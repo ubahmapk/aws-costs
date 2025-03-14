@@ -17,12 +17,6 @@ repos:
         types_or: [python, pyi]
         args: [--config=.ruff.toml]
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.396
-    hooks:
-      - id: pyright
-        types_or: [python, pyi]
-
   # Bandit SAST
   # https://bandit.readthedocs.io/en/latest/index.html
   - repo: https://github.com/PyCQA/bandit
