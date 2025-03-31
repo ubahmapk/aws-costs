@@ -155,5 +155,7 @@ cython_debug/
 
 # Zed
 .zed
+.ropeproject
 
+# macOS
 .DS_Store
