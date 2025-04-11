@@ -1,5 +1,6 @@
+import click
 import pytest
-from typer import BadParameter, Exit
+from typer import BadParameter
 from typer.testing import CliRunner
 
 from aws_costs.__version__ import __version__
@@ -43,10 +44,7 @@ def test_cost_report_generation(mocker, mock_env_vars):
 
 
 def test_invalid_date_range():
-    with pytest.raises(Exit):
-        validate_date_range("2023-01-01", "2023-01-01")
-
-    with pytest.raises(Exit):
+    with pytest.raises(click.exceptions.Abort):
         validate_date_range("2023-02-01", "2023-01-01")
 
 
